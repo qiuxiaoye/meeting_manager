@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Roll Call</title>
+    <style>
+        body { text-align: center; }
+        .attendees-list { display: inline-block; text-align: left; }
+        button { margin: 2px; }
+        .message { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Roll Call</h1>
+    {% for message in messages %}
+        <div class="message {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    <div class="attendees-list">
+        <form method="POST">
+            {% csrf_token %}
+            <h2>Present</h2>
+            <ul>
+                {% for name in attendees.Present %}
+                    <li>
+                        <button type="submit" name="name" value="{{ name }}">{{ name }}</button>
+                        <input type="hidden" name="list_name" value="Present">
+                    </li>
+                {% endfor %}
+            </ul>
+            <h2>Absent</h2>
+            <ul>
+                {% for name in attendees.Absent %}
+                    <li>
+                        <button type="submit" name="name" value="{{ name }}">{{ name }}</button>
+                        <input type="hidden" name="list_name" value="Absent">
+                    </li>
+                {% endfor %}
+            </ul>
+            <button type="submit" name="submit_all">Save Attendance</button>
+            <button type="submit" name="reset_all">Reset All</button>
+        </form>
+    </div>
+</body>
+</html>
